@@ -8,7 +8,11 @@ RUN npm update
 RUN npm install
 
 WORKDIR /home/
+RUN apt-get remove imagemagick imagemagick-common  -y
+RUN apt-get autoremove -y
+RUN apt-get autoclean -y
 RUN yes | dpkg --purge imagemagick
+RUN dpkg -l | grep '^rc' | awk '{print $2}' | xargs apt-get purge -y
 RUN wget https://download.imagemagick.org/ImageMagick/download/releases/ImageMagick-6.7.7-10.tar.xz
 RUN tar -xf ImageMagick-6.7.7-10.tar.xz
 WORKDIR /home/ImageMagick-6.7.7-10
